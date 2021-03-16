@@ -1,5 +1,5 @@
-## Ventilation d'une baie informatique à base d'arduino
-# schield : 
+# Ventilation d'une baie informatique à base d'arduino
+## schield : 
 ethernet
-# capteurs:
+## capteurs:
 DHT11
