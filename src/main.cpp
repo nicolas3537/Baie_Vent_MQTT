@@ -7,7 +7,7 @@
 byte mac[] = { 0xAE, 0xAD, 0xAE, 0xAE, 0xAE, 0xAD };
 
 //Infos MQTT a adapter
-const char* mqttServer = "http://openmediavault.local";  //Adresse IP du Broker MQTT
+const char* mqttServer = "192.168.0.23";  //Adresse IP du Broker MQTT
 const int mqttPort = 1883;               //Port utilisé par le Broker MQTT
 
 
@@ -49,6 +49,10 @@ boolean etat_ventil_2_old = 0;
 // Variable de Tempo pour déclenchement de lecture
 unsigned long previousMillis = 0;
 
+//MQTT définition
+#define Clientarduino "Baie_vent"
+#define MQTT_USERNAME "homeassistant"
+#define MQTT_KEY "ohs8Phookeod6chae0ENg5aingeite8Jaebooziheevug0huinei8Ood9iePoh9l"
 
 
 void setup() {
@@ -82,25 +86,22 @@ void setup() {
   IPAddress IP_Arduino = Ethernet.localIP();
   Serial.println(IP_Arduino);
 
+  //Connection MQTT
+  if (monClientMqtt.connect(Clientarduino, MQTT_USERNAME, MQTT_KEY)) {
+    monClientMqtt.publish("outTopic","hello world");
+    monClientMqtt.subscribe("inTopic");
+  }
+  else {
+      Serial.print("echec, code erreur= ");
+      Serial.println(monClientMqtt.state());
+  }
+
 }
 
 void loop() {
   // put your main code here, to run repeatedly:
   //Mesure du temps
       unsigned long currentMillis = millis();
-  // Connexion au serveur MQTT
-  while (!monClientMqtt.connected()) {
-    Serial.println("Connexion au serveur MQTT ...");
-    if (monClientMqtt.connect("53salonlolin")) {
-      Serial.println("MQTT connecte");
-    }
-    else {
-      Serial.print("Echec connexion serveur MQTT, code erreur= ");
-      Serial.println(monClientMqtt.state());
-      Serial.println("nouvel essai dans 2s");
-    delay(2000);
-    }
-  }
 if ( currentMillis - previousMillis >= 60000 ) 
     {
       //Incrémentation du temps
