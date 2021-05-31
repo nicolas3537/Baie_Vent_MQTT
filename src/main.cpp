@@ -87,7 +87,7 @@ void setup() {
   Serial.println(IP_Arduino);
 
   //Connection MQTT
-  if (monClientMqtt.connect(Clientarduino, MQTT_USERNAME, MQTT_KEY)) {
+  if (monClientMqtt.connect("Clientarduino", "homeassistant", "ohs8Phookeod6chae0ENg5aingeite8Jaebooziheevug0huinei8Ood9iePoh9l")) {
     monClientMqtt.publish("outTopic","hello world");
     monClientMqtt.subscribe("inTopic");
   }
